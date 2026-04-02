@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakeUrWiki</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+                        <path d="M2 17L12 22L22 17V7L12 12L2 7V17Z" fill="currentColor" opacity="0.7"/>
+                    </svg>
+                    <span>MakeUrWiki</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="search-bar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input type="text" placeholder="Search Wiki..." id="searchInput">
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn-edit" id="editBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    Edit
+                </button>
+                <button class="btn-settings" id="settingsBtn" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M5.6 5.6l4.2 4.2m4.4 4.4l4.2 4.2M1 12h6m6 0h6M5.6 18.4l4.2-4.2m4.4-4.4l4.2-4.2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-item active">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                        <span>Community</span>
+                    </div>
+                    <div class="nav-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>Explore</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-header">NAVIGATE</div>
+                    <div class="nav-item">
+                        <span>Recent</span>
+                    </div>
+                    <div class="nav-item">
+                        <span>Categories</span>
+                    </div>
+                    <div class="nav-item">
+                        <span>Popular pages</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-header">TOOLS</div>
+                    <div class="nav-item">
+                        <span>Recent changes</span>
+                    </div>
+                    <div class="nav-item">
+                        <span>Help</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content + Infobox -->
+        <div class="main-content-wrapper">
+            <main class="main-content">
+                <div id="contentArea" class="content-area">
+                    <!-- Content injected here -->
+                </div>
+            </main>
+
+            <!-- Right Infobox -->
+            <aside class="infobox">
+                <div class="infobox-image">
+                    <img id="infoboxImage" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&h=300&fit=crop" alt="Main image">
+                </div>
+                <div class="infobox-content">
+                    <table class="infobox-table" id="infoboxTable">
+                        <tr>
+                            <th>Type</th>
+                            <td>Wiki Article</td>
+                        </tr>
+                        <tr>
+                            <th>Created</th>
+                            <td id="createdDate">2025</td>
+                        </tr>
+                        <tr>
+                            <th>Current state</th>
+                            <td><span class="status-badge">Active</span></td>
+                        </tr>
+                        <tr>
+                            <th>Editors</th>
+                            <td id="editorsCount">1</td>
+                        </tr>
+                    </table>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Wiki Settings</h2>
+                <button class="modal-close" id="closeSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Invite to Edit</h3>
+                    <p class="help-text">Share these links to allow editing or admin access</p>
+                    <div class="input-group">
+                        <input type="text" id="editLinkDisplay" readonly placeholder="Editor link">
+                        <button class="btn-copy" id="copyEditLinkBtn">Copy</button>
+                    </div>
+                    <div class="input-group" id="adminLinkGroup" style="display: none;">
+                        <input type="text" id="adminLinkDisplay" readonly placeholder="Admin link">
+                        <button class="btn-copy" id="copyAdminLinkBtn">Copy</button>
+                    </div>
+                    <button class="btn-secondary" id="generateEditorLinkBtn">Generate Editor Link</button>
+                    <button class="btn-secondary" id="generateAdminLinkBtn" style="display: none;">Generate Admin Link</button>
+                </div>
+
+                <div class="settings-section" id="lockSection" style="display: none;">
+                    <h3>Lock Wiki</h3>
+                    <p class="help-text">Prevent editing with a security code (only admin)</p>
+                    <div class="lock-status" id="lockStatus">
+                        <span class="status-indicator unlocked"></span>
+                        <span>Unlocked</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="lockCodeInput" placeholder="Lock code (4-8 characters)">
+                        <button class="btn-lock" id="lockWikiBtn">Lock</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="unlockCodeInputSettings" placeholder="Unlock code">
+                        <button class="btn-unlock" id="unlockWikiBtn">Unlock</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Wiki Data</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="lastSaved">Never</div>
+                            <div class="stat-label">Last Save</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="contentSize">0 KB</div>
+                            <div class="stat-label">Size</div>
+                        </div>
+                    </div>
+                    <button class="btn-danger" id="clearDataBtn">Clear All Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unlock Modal (shown when editing locked wiki) -->
+    <div class="modal" id="unlockModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Wiki is Locked</h2>
+            </div>
+            <div class="modal-body">
+                <p>This wiki is protected. Enter the code to edit.</p>
+                <div class="input-group">
+                    <input type="password" id="unlockCodeInput" placeholder="Lock code">
+                    <button class="btn-primary" id="unlockBtn">Unlock</button>
+                </div>
+                <p class="error-message" id="unlockError"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <script src="app.js"></script>
+</body>
+</html>
