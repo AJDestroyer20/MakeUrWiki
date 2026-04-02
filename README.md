@@ -1,278 +1,119 @@
+# MakeUrWiki - Real-time Collaborative Wiki
 
-# MakeUrWiki
-
-A complete, functional replica of Fandom/Wikipedia with a visual editor, permission system, and local persistence.
+A fully functional, real-time wiki with a Fandom/Wikipedia-like design, powered by Firebase Firestore. Multiple users can edit simultaneously, and permissions are managed via URL parameters.
 
 ## Features
 
-- **Faithful Fandom design**: Visually identical interface with header, sidebar, main content, and infobox
-- **Full visual editor**: Powered by Editor.js with support for:
-  - Headers (H1, H2, H3)
-  - Formatted paragraphs
-  - Ordered/unordered lists
-  - Images (drag & drop)
-  - Quotes
-  - Tables
-- **Token-based permission system**: Separate **Editor** and **Admin** links with unique tokens
-- **Code lock**: Protect your wiki with a security code (admin only)
-- **Auto-save**: Every 5 seconds automatically
-- **100% Frontend**: No backend, works on GitHub Pages
-- **Responsive**: Adapts to mobile and tablets
+- **Real-time sync**: Changes appear instantly for all viewers
+- **Permission links**: 
+  - `?edit=true` → Editor access (can edit when wiki is unlocked)
+  - `?admin=1234` → Admin access (full control, can lock/unlock)
+- **Lock system**: Admin can set a code to prevent non-admin edits
+- **Visual editor**: Powered by Editor.js (headers, paragraphs, lists, images, quotes, tables)
+- **Auto-save**: Content saved every 5 seconds
+- **Cloud storage**: All data stored in Firebase Firestore
+- **Responsive design**: Works on desktop, tablet, and mobile
+- **100% frontend**: Host on GitHub Pages, Netlify, or any static host
+
+## Setup Firebase (Required)
+
+1. **Create a Firebase project** at https://console.firebase.google.com/
+2. **Enable Firestore Database** in test mode (or production with proper rules)
+3. **Register your web app** in Firebase → Project settings → General → Your apps
+4. **Copy the firebaseConfig** object (apiKey, authDomain, projectId, etc.)
+5. **Paste it into `app.js`** replacing the placeholder `firebaseConfig`
+
+### Firestore Security Rules (recommended for production)
+rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+match /wikis/{document} {
+allow read: if true;
+allow write: if request.auth == null; // Change to authenticated if needed
+}
+}
+}
+
+text
+
+For simple public wikis, allow all reads/writes (test mode).
 
 ## Deploy to GitHub Pages
 
-### Option 1: Upload files directly
+1. **Create a repository** on GitHub (public)
+2. **Upload files**: `index.html`, `styles.css`, `app.js`, `README.md`
+3. **Go to Settings → Pages** → Source: `main` branch → Save
+4. Your wiki will be live at `https://your-username.github.io/repo-name/`
 
-1. **Create a new repository on GitHub**
-   - Go to https://github.com/new
-   - Name your repo (e.g., `my-wiki`)
-   - Set to "Public"
-   - Click "Create repository"
+## Usage
 
-2. **Upload the files**
-   - Click "uploading an existing file"
-   - Drag these files:
-     - `index.html`
-     - `styles.css`
-     - `app.js`
-     - `README.md`
-   - Click "Commit changes"
+### Visitor (read-only)
+Open the base URL. No edit button will work.
 
-3. **Enable GitHub Pages**
-   - Go to Settings → Pages
-   - Under "Source", select "main" branch
-   - Click "Save"
-   - Wait 2-3 minutes
+### Editor
+Add `?edit=true` to the URL. Example:  
+`https://your-wiki.com/?edit=true`  
+Anyone with this link can edit when the wiki is unlocked.
 
-4. **Done!**
-   - Your wiki will be at: `https://your-username.github.io/my-wiki/`
+### Admin
+Add `?admin=1234` to the URL. Example:  
+`https://your-wiki.com/?admin=1234`  
+Admin can:
+- Edit even when locked
+- Lock/unlock the wiki with a code
+- Generate shareable editor/admin links
 
-### Option 2: Using Git (command line)
+### Locking the wiki
+1. Open the wiki with admin link
+2. Click Settings (⚙️) → Lock Wiki
+3. Enter a 4-8 character code and click Lock
+4. Now only admin can edit. Editors will be blocked.
 
-```bash
-# 1. Initialize local repository
-git init
-
-# 2. Add files
-git add index.html styles.css app.js README.md
-
-# 3. Commit
-git commit -m "Initial commit: MakeUrWiki"
-
-# 4. Connect to GitHub (replace with your URL)
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
-
-# 5. Push
-git branch -M main
-git push -u origin main
-```
-
-Then enable GitHub Pages from Settings → Pages.
-
-## How to use
-
-### Visitor Mode
-- Browse and read content
-- Use the search bar (decorative)
-- Explore the sidebar
-
-### Editor Mode
-1. Click **"Edit"** (blue button top-right)
-2. Make your changes
-3. Click **"Save"** (the button turns green)
-4. Changes are auto-saved every 5 seconds
-
-### Sharing edit permissions
-1. Click the **Settings** icon
-2. Copy the **Editor Link** (anyone with it can edit)
-3. Share it with anyone you want to allow editing
-
-### Admin-only actions
-- Generate a new **Admin Link** (full control)
-- **Lock the wiki** with a 4-8 character code
-- **Unlock** the wiki using the code
-
-To perform admin actions, you must open the wiki using the Admin Link (generated in Settings by the original creator).
-
-### Protecting with a lock code
-1. Open **Settings** (while using an Admin Link)
-2. Under "Lock Wiki", enter a code (4-8 characters)
-3. Click **"Lock"**
-4. Now no one can edit without entering the code
-5. To unlock, enter the code and click **"Unlock"**
+### Unlocking
+Admin can unlock using the same code in the settings.
 
 ## Local Development
 
-### Prerequisites
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- (Optional) Local HTTP server
+Run a local HTTP server (Firebase requires `http://localhost` or HTTPS):
 
-### Installation
+```bash
+# Python 3
+python -m http.server 8000
 
-1. **Download files**
-   ```bash
-   git clone https://github.com/AJDestroyer20/MakeUrWiki.git
-   cd MakeUrWiki
-   ```
+# Node.js
+npx http-server -p 8000
+Open http://localhost:8000
 
-2. **Run locally**
-
-   **Option A: HTTP server with Python**
-   ```bash
-   # Python 3
-   python -m http.server 8000
-   
-   # Python 2
-   python -m SimpleHTTPServer 8000
-   ```
-   Then go to: `http://localhost:8000`
-
-   **Option B: HTTP server with Node.js**
-   ```bash
-   npx http-server -p 8000
-   ```
-
-   **Option C: Open directly**
-   - Double-click `index.html`
-   - Some features may not work due to CORS restrictions
-
-   **Then just start making your wiki**
-
-## Project structure
-
-```
+Project Structure
+text
 makeurwiki/
-│
-├── index.html          # Main HTML structure
-├── styles.css          # CSS styles (Fandom-like design)
-├── app.js              # JavaScript logic (editor, tokens, lock)
-└── README.md           # This documentation
-```
+├── index.html      # Main UI structure
+├── styles.css      # Fandom-like styling
+├── app.js          # Firebase logic, editor, permissions
+└── README.md       # Documentation
+Customization
+Change admin password: Edit isAdmin check in app.js (line ~15)
 
-## Technical Architecture
+Change default content: Modify DEFAULT_CONTENT in app.js
 
-### Frontend
-- **HTML5**: Semantic structure
-- **CSS3**: CSS Variables, Grid, Flexbox
-- **JavaScript (Vanilla)**: No frameworks
+Styling: Edit styles.css (CSS variables)
 
-### Editor
-- **Editor.js**: Modular block editor
-- Plugins: Header, Paragraph, List, Image, Quote, Table
+Infobox image: Replace URL in index.html (line ~113)
 
-### Persistence
-- **localStorage**: Browser local storage
-- Saved data:
-  - Article content (JSON)
-  - Editor token
-  - Admin token
-  - Lock code (if set)
+Troubleshooting
+"Firebase configuration error"
+→ Make sure you replaced the placeholder config with your actual Firebase project details.
 
-### Token System
-```javascript
-// Generate unique token
-function generateToken() {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
-}
+"Permission denied"
+→ Check Firestore rules; for testing set to allow read, write: if true;
 
-// Editor link: https://your-wiki.com/?token=ABC123XYZ
-// Admin link:  https://your-wiki.com/?token=DEF456UVW
-```
+"Editor not loading"
+→ Open browser console (F12) for errors. Ensure all CDN scripts are reachable.
 
-### Security
-- Tokens are randomly generated
-- Lock code is stored locally
-- No backend, so no exposed database
-- **Note**: localStorage is accessible via JavaScript; do not use for real sensitive data
+"Changes not saving"
+→ Check that you are using ?edit=true or ?admin=1234 and that the wiki is unlocked (or you are admin).
 
-## Customization
+License
+WTFPL –  Do What The Fuck You Want To Public License.
 
-### Change colors
-Edit CSS variables in `styles.css`:
-
-```css
-:root {
-    --primary-blue: #002A8F;      /* Primary color */
-    --accent-blue: #0969DA;       /* Accent color */
-    --bg-page: #F8F9FA;           /* Page background */
-    /* ... more variables ... */
-}
-```
-
-### Change logo
-Edit the SVG in `index.html` line ~18:
-
-```html
-<div class="logo">
-    <svg><!-- Your logo here --></svg>
-    <span>YourName</span>
-</div>
-```
-
-### Change initial content
-Edit `INITIAL_CONTENT` in `app.js` line ~80.
-
-### Change infobox image
-Replace the URL in `index.html` line ~113:
-
-```html
-<img id="infoboxImage" src="YOUR_IMAGE_HERE.jpg" alt="...">
-```
-
-## Common Issues
-
-### "I can't edit"
-- Make sure you are using a link with `?token=...`
-- Verify the token is correct (editor or admin)
-- Check if the wiki is locked (needs code)
-
-### "My changes are not saved"
-- Ensure localStorage is enabled in your browser
-- Check the browser console (F12) for errors
-- Make sure you have enough space (localStorage ~5-10MB)
-
-### "I lost my lock code"
-- There is no way to recover it
-- Workaround: Open console (F12) and run:
-  ```javascript
-  localStorage.removeItem('lockCode')
-  ```
-
-### "I want to reset everything"
-- Use the "Clear All Data" button in Settings
-- Or in console: `localStorage.clear()`
-
-## Roadmap / Future Ideas
-
-- Cloud sync (Firebase/Supabase)
-- Version history
-- Real-time collaboration with WebSockets
-- Export to PDF/Markdown
-- Dark/light theme
-- More Editor.js plugins
-- Category system
-- Functional search
-
-## License
-
-MIT License - Feel free to use, modify, and distribute.
-
-## Contributions
-
-Contributions are welcome! If you find bugs or have ideas:
-
-1. Fork the project
-2. Create a branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Contact
-
-Questions? Suggestions? Open an Issue on GitHub.
-
----
-
-Made with love and lots of coffee | 2025
-```
+Made with Firebase and Editor.js | 2025
