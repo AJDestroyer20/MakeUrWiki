@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakeUrWiki</title>
+    <title>MakeUrWiki - Real-time Wiki</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -122,7 +123,7 @@
                         </tr>
                         <tr>
                             <th>Current state</th>
-                            <td><span class="status-badge">Active</span></td>
+                            <td><span class="status-badge" id="wikiStatus">Active</span></td>
                         </tr>
                         <tr>
                             <th>Editors</th>
@@ -146,11 +147,11 @@
                     <h3>Invite to Edit</h3>
                     <p class="help-text">Share these links to allow editing or admin access</p>
                     <div class="input-group">
-                        <input type="text" id="editLinkDisplay" readonly placeholder="Editor link">
+                        <input type="text" id="editLinkDisplay" readonly placeholder="Editor link (edit=true)">
                         <button class="btn-copy" id="copyEditLinkBtn">Copy</button>
                     </div>
                     <div class="input-group" id="adminLinkGroup" style="display: none;">
-                        <input type="text" id="adminLinkDisplay" readonly placeholder="Admin link">
+                        <input type="text" id="adminLinkDisplay" readonly placeholder="Admin link (admin=1234)">
                         <button class="btn-copy" id="copyAdminLinkBtn">Copy</button>
                     </div>
                     <button class="btn-secondary" id="generateEditorLinkBtn">Generate Editor Link</button>
@@ -159,7 +160,7 @@
 
                 <div class="settings-section" id="lockSection" style="display: none;">
                     <h3>Lock Wiki</h3>
-                    <p class="help-text">Prevent editing with a security code (only admin)</p>
+                    <p class="help-text">Prevent editing by non-admins with a security code</p>
                     <div class="lock-status" id="lockStatus">
                         <span class="status-indicator unlocked"></span>
                         <span>Unlocked</span>
@@ -186,7 +187,7 @@
                             <div class="stat-label">Size</div>
                         </div>
                     </div>
-                    <button class="btn-danger" id="clearDataBtn">Clear All Data</button>
+                    <button class="btn-danger" id="clearDataBtn">Reset Wiki to Default</button>
                 </div>
             </div>
         </div>
@@ -199,24 +200,27 @@
                 <h2>Wiki is Locked</h2>
             </div>
             <div class="modal-body">
-                <p>This wiki is protected. Enter the code to edit.</p>
-                <div class="input-group">
-                    <input type="password" id="unlockCodeInput" placeholder="Lock code">
-                    <button class="btn-primary" id="unlockBtn">Unlock</button>
-                </div>
-                <p class="error-message" id="unlockError"></p>
+                <p>This wiki is protected. Only admins can edit.</p>
+                <p>If you are admin, use the admin link: <strong>?admin=1234</strong></p>
+                <button class="btn-primary" id="closeUnlockModalBtn">Got it</button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    
+    <!-- Editor.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@2.28.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@2.8.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.8.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@2.11.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@2.5.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@2.2.2"></script>
+    
+    <!-- Main app -->
     <script src="app.js"></script>
 </body>
 </html>
